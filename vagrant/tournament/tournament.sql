@@ -7,17 +7,17 @@
 -- these lines here.
 
 -- Clear the database
-DROP TABLE IF EXISTS matches;
-DROP TABLE IF EXISTS players;
+DROP TABLE IF EXISTS Matches;
+DROP TABLE IF EXISTS Players;
 
 -- Create the tables
-CREATE TABLE players (
+CREATE TABLE Players (
   name TEXT,
   id SERIAL PRIMARY KEY
 );
 
-CREATE TABLE matches (
-  winner INTEGER REFERENCES players(id),
-  loser INTEGER REFERENCES players(id),
+CREATE TABLE Matches (
+  winner INTEGER REFERENCES Players(id),
+  loser INTEGER REFERENCES Players(id),
   PRIMARY KEY (winner, loser)
 );
