@@ -68,7 +68,7 @@ def playerStandings():
     db = connect()
     c = db.cursor()
     c.execute("""
-    SELECT Wins.id, Wins.name, win_count, win_count + loss_count
+    SELECT Wins.id, Wins.name, win_count, (win_count + loss_count)
     FROM (
         SELECT Players.id, Players.name, count(Matches.loser) AS loss_count
           FROM Players
