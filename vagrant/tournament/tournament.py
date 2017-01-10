@@ -67,6 +67,9 @@ def playerStandings():
     """
     db = connect()
     c = db.cursor()
+
+    # We use two subqueries, one to get the wins for a player and one to get the losses
+    #  then we join on player.id and sort by wins
     c.execute("""
     SELECT Wins.id, Wins.name, win_count, (win_count + loss_count)
     FROM (
@@ -123,7 +126,8 @@ def swissPairings():
     standings = playerStandings()
     pairings = []
     for i in range(0, len(standings), 2):
-        pairings.append((standings[i][0], standings[i][1], standings[i+1][0], standings[i+1][1]))
+        pairings.append((standings[i][0], standings[i][1],
+                         standings[i+1][0], standings[i+1][1]))
     return pairings
 
 
