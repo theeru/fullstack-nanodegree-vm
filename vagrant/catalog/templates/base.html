@@ -21,8 +21,14 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="938374975311-n2l500ambbvv489cksjcoe3vkbc1150p.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
     <link rel="stylesheet"
-          href="{{ url_for('static', filename='styles.css') }}">
+          href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
     <!-- Child templates can add to header here -->
     {% block page_head %}
@@ -38,7 +44,24 @@
                     <h1 class="header__title">Catalog App</h1>
                 </div>
                 <div class="col-xs-6">
-                    <div class="header_login-button"></div>
+                    {% if session.email != None %}
+                        <div class="signout-btn">
+                            <a role="button" class="btn btn-default
+                                pull-right" href="#"
+                               onclick="signOut();">Sign Out</a>
+                        </div>
+                        <script>
+                            function signOut() {
+                                var auth2 = gapi.auth2.getAuthInstance();
+                                auth2.signOut().then(function () {
+                                    console.log('User signed out.');
+                                });
+                            }
+                        </script>
+                    {% else %}
+                        <div class="g-signin2 pull-right"
+                             data-onsuccess="onSignIn"></div>
+                    {% endif %}
                 </div>
             </div>
         </div>

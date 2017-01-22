@@ -6,3 +6,11 @@ header {
 h1.header__title {
     color: #ffffff;
 }
+
+.g-signin2 {
+    margin-top: 15px;
+}
+
+.signout-btn {
+    margin-top: 15px;
+}

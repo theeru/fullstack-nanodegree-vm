@@ -5,8 +5,6 @@ from flask import request
 from flask import make_response
 import random
 import string
-from oauth2client.client import flow_from_clientsecrets
-from oauth2client.client import FlowExchangeError
 import json
 
 
@@ -34,7 +32,8 @@ def gsignin():
         response = make_response(json.dumps('Invalid state parameter'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
-    result = json.loads(request.data)
+    session['user_email'] = request.form['email']
+    return ''
 
 
 @app.route('/')
@@ -43,6 +42,7 @@ def hello():
 
 
 if __name__ == '__main__':
-    app.secret_key = 'eA2TKYQyhcOY0MnqSuoy'
+    app.secret_key = \
+        '\xe9{\xd40\xd6\x1bjw(\xf0\x86\xae\xd48F\xa7\x0c\x01\xc3HQ\x10\xb8\xaf'
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
