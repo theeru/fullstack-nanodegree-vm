@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% import 'macros/categories' as categories %}
+
+{% block content %}
+    {{ categories.category_form(category, '/catalog/%s/edit' % category.name) }}
+{% endblock %}

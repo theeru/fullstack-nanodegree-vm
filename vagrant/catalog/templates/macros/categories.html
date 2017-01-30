@@ -1,0 +1,17 @@
+{% macro category_form(category, action) %}
+    <form method="post" action="{{ action }}">
+        <div class="form-group">
+            <label for="category_name">Name</label>
+            <input type="hidden"
+                   id="state"
+                   name="state"
+                   value="{{ session.state }}">
+            <input type="text"
+                   class="form-control"
+                   id="category_name"
+                   name="category_name"
+                   {% if category %} value="{{ category.name }}" {% endif %}>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+{% endmacro %}

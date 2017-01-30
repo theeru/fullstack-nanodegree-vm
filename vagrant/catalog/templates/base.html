@@ -10,6 +10,9 @@
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
           crossorigin="anonymous">
 
+    <!-- Font Awesome -->
+    <script src="https://use.fontawesome.com/b7365ecae4.js"></script>
+
     <!-- jQuery CDN -->
     <script
             src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -23,7 +26,8 @@
 
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="938374975311-n2l500ambbvv489cksjcoe3vkbc1150p.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://apis.google.com/js/platform.js"></script>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/styles.css') }}">
@@ -44,20 +48,12 @@
                     <h1 class="header__title">Catalog App</h1>
                 </div>
                 <div class="col-xs-6">
-                    {% if session.email != None %}
+                    {% if session.user %}
                         <div class="signout-btn">
                             <a role="button" class="btn btn-default
                                 pull-right" href="#"
                                onclick="signOut();">Sign Out</a>
                         </div>
-                        <script>
-                            function signOut() {
-                                var auth2 = gapi.auth2.getAuthInstance();
-                                auth2.signOut().then(function () {
-                                    console.log('User signed out.');
-                                });
-                            }
-                        </script>
                     {% else %}
                         <div class="g-signin2 pull-right"
                              data-onsuccess="onSignIn"></div>
@@ -72,5 +68,47 @@
             {% endblock %}
         </main>
     </div>
+    <script>
+        $(document).ready(function () {
+            gapi.load('auth2', function () {
+                gapi.auth2.init();
+            })
+        });
+
+        /**
+         * Callback for successful Google Sign-in
+         * @param googleUser The google user object
+         */
+        function onSignIn(googleUser) {
+            // Useful data for your client-side scripts:
+            var profile = googleUser.getBasicProfile();
+            console.log(profile.getEmail());
+
+            $.ajax({
+                url: '/gsignin',
+                type: 'POST',
+                data: {'email': profile.getEmail()}
+            }).done(function () {
+                //setTimeout(function () {
+                //    window.location.href = '/';
+                //}, 2000);
+            });
+        }
+
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                console.log('User signed out.');
+
+                // Make the server clear the user from the session
+                $.get("/logout?state={{ session.state }}", function (response) {
+                    console.log('User session cleared');
+                    setTimeout(function () {
+                        window.location.href = '/';
+                    }, 1000);
+                });
+            })
+        }
+    </script>
 </body>
 </html>

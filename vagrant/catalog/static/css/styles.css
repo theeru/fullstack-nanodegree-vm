@@ -11,6 +11,19 @@ h1.header__title {
     margin-top: 15px;
 }
 
+.signin {
+    margin-top: 15px;
+}
+
 .signout-btn {
     margin-top: 15px;
+}
+
+.categories {
+    border-right: 1px solid #ccc;
+    height: 100vh;
+}
+
+.latest-items {
+    height: 100vh;
 }

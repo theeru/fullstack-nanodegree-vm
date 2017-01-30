@@ -1,10 +1,10 @@
-from sqlalchemy import create_engine
-
-from models.base import Base
-from config import DB_FILENAME
-
-engine = create_engine('sqlite:///%s' % DB_FILENAME, echo=True)
+from catalog.models.base import Base
+import catalog.models.categories
+import catalog.models.items
+import catalog.models.users
+from catalog import engine
 
 # Create the tables
+Base.metadata.drop_all(engine)
 Base.metadata.create_all(engine)
 

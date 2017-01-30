@@ -3,7 +3,8 @@ from models.users import User
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from vagrant.catalog.models import base
+from vagrant.catalog import base
+
 
 class UsersTest(unittest.TestCase):
 

@@ -1,4 +1,51 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Hello</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-4">
+            <section class="categories">
+                <h2 class="categories__title">
+                    Categories
+                    {% if session.user %}
+                        <a href="/catalog/categories/form?state={{ session.state }}"><i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i></a>
+                    {% endif %}
+                </h2>
+                {% if (categories | length) > 0 %}
+                    <ul class="categories__list list-unstyled">
+                        {% for category in categories %}
+                            <li class="categories__list-item">
+                                <a href="/catalog/{{ category.name }}/items">{{ category.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No categories</p>
+                {% endif %}
+            </section>
+        </div>
+        <div class="col-xs-12 col-md-8">
+            <section class="latest-items">
+                <h2 class="latest-items__header">
+                    Latest Items
+                    {% if session.user %}
+                        <a href="/catalog/items/create?state={{ session.state }}"><i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i></a>
+                    {% endif %}
+                </h2>
+                {% if (items | length) > 0 %}
+                    <ul class="latest-items__list">
+                        {% for item in items %}
+                            <li class="latest-items__list-item">
+                                <a href="/catalog/{{ item.category }}/{{ item.title }}">
+                                    {{ item.title }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No items</p>
+                {% endif %}
+            </section>
+        </div>
+    </div>
+</div>
 {% endblock %}
